@@ -1,25 +1,38 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import {Route, Switch, Redirect} from "react-router-dom";
+import Header from "./components/Header/Header";
+import Cocktails from "./containers/Cocktails/Cocktails";
+import AddCocktail from "./containers/AddCocktail/AddCocktail";
+import UserCocktails from "./containers/UserCocktails/UserCocktails";
+import {useSelector} from "react-redux";
+
+const ProtectedRoute = ({isAllowed, ...props}) => {
+    return isAllowed ? <Route {...props} /> : <Redirect to="/"/>
+};
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    const user = useSelector(state => state.users.user);
+    return (
+        <div className="App">
+            <Header/>
+            <Switch>
+                <Route path="/" exact component={Cocktails}/>
+                <ProtectedRoute
+                    path="/addcocktail"
+                    exact
+                    component={AddCocktail}
+                    isAllowed={user && user.user.role === "user"}
+                />
+                <ProtectedRoute
+                    path="/mycocktails"
+                    exact
+                    component={UserCocktails}
+                    isAllowed={user && user.user.role === "user"}
+                />
+                <Route render={() => <h1>404</h1>}/>
+            </Switch>
+        </div>
+    );
 }
 
 export default App;

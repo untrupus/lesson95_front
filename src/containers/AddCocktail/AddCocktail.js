@@ -1,11 +1,11 @@
 import React from 'react';
 
-const SingleCocktail = () => {
+const AddCocktail = () => {
     return (
         <div>
-
+            add
         </div>
     );
 };
 
-export default SingleCocktail;
+export default AddCocktail;
