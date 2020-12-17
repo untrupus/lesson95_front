@@ -153,6 +153,7 @@ const AddCocktail = () => {
                     variant="outlined"
                     margin="normal"
                     fullWidth
+                    required
                     id="name"
                     label="Name"
                     name="name"
@@ -178,6 +179,7 @@ const AddCocktail = () => {
                     margin="normal"
                     fullWidth
                     multiline
+                    required
                     rows={3}
                     name="recipe"
                     label="Recipe"

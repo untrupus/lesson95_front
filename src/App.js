@@ -24,7 +24,7 @@ function App() {
                     isAllowed={user && user.user.role === "user"}
                 />
                 <ProtectedRoute
-                    path="/mycocktails"
+                    path="/cocktails/:id"
                     exact
                     component={UserCocktails}
                     isAllowed={user && user.user.role === "user"}

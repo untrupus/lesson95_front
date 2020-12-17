@@ -78,7 +78,7 @@ const UserMenu = props => {
                 {user && user.user.role === "user" ?
                     <>
                     <MenuItem onClick={handleClose}>
-                        <Link component={RouterLink} className={classes.history} to="/mycocktails">My  Cocktails</Link>
+                        <Link component={RouterLink} className={classes.history} to={"/cocktails/" + user.user._id}>My  Cocktails</Link>
                     </MenuItem>
                     <MenuItem onClick={handleClose}>
                         <Link component={RouterLink} className={classes.history} to="/addcocktail">Add Cocktail</Link>

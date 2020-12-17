@@ -58,25 +58,29 @@ const Cocktails = () => {
                 </div>
             )
         });
-        return (
-            <SingleCocktail
-                key={cocktail._id}
-                name={cocktail.name}
-                image={'http://localhost:8000/uploads/' + cocktail.image}
-                recipe={cocktail.recipe}
-                ingredients={ingredientsList}
-                remove={user && user.user.role === "admin" ?
-                    <HighlightOffIcon
-                        onClick={() => remove(cocktail._id)}
-                        className={classes.iconDel}
-                    /> : null}
-                add={!cocktail.published && (user && user.user.role === "admin") ?
-                    <AddCircleOutlineIcon
-                        onClick={() => add(cocktail._id)}
-                        className={classes.iconAdd}
-                    /> : null}
-            />
-        )
+        if (cocktail.published || (user && user.user.role === "admin")) {
+            return (
+                <SingleCocktail
+                    key={cocktail._id}
+                    name={cocktail.name}
+                    image={cocktail.image ?
+                        'http://localhost:8000/uploads/' + cocktail.image
+                        : 'https://argamak-sher.uz/wp-content/uploads/no-image.png'}
+                    recipe={cocktail.recipe}
+                    ingredients={ingredientsList}
+                    remove={user && user.user.role === "admin" ?
+                        <HighlightOffIcon
+                            onClick={() => remove(cocktail._id)}
+                            className={classes.iconDel}
+                        /> : null}
+                    add={!cocktail.published && (user && user.user.role === "admin") ?
+                        <AddCircleOutlineIcon
+                            onClick={() => add(cocktail._id)}
+                            className={classes.iconAdd}
+                        /> : null}
+                />
+            )
+        } else return null
     });
 
     return (

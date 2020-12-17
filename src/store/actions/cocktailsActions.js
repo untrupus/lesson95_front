@@ -2,7 +2,8 @@ import {
     ADD_COCKTAIL_ERROR,
     FETCH_COCKTAILS_ERROR,
     FETCH_COCKTAILS_SUCCESS,
-
+    FETCH_USER_COCKTAILS_ERROR,
+    FETCH_USER_COCKTAILS_SUCCESS
 } from "../actionTypes";
 import axiosAPI from "../../axiosAPI";
 import {push} from "connected-react-router";
@@ -24,7 +25,7 @@ export const addCocktail = (data) => {
 };
 
 const fetchCocktailsError = error => {
-  return {type: FETCH_COCKTAILS_ERROR, error};
+    return {type: FETCH_COCKTAILS_ERROR, error};
 };
 
 const fetchCocktailsSuccess = value => {
@@ -38,6 +39,25 @@ export const fetchCocktails = () => {
             dispatch(fetchCocktailsSuccess(response.data));
         } catch (e) {
             dispatch(fetchCocktailsError(e));
+        }
+    };
+};
+
+const fetchUserCocktailsSuccess = value => {
+    return {type: FETCH_USER_COCKTAILS_SUCCESS, value};
+};
+
+const fetchUserCocktailsError = error => {
+    return {type: FETCH_USER_COCKTAILS_ERROR, error};
+};
+
+export const fetchUserCocktail = id => {
+    return async dispatch => {
+        try {
+            const response = await axiosAPI.get("cocktails?user=" + id);
+            dispatch(fetchUserCocktailsSuccess(response.data));
+        } catch (e) {
+            dispatch(fetchUserCocktailsError(e))
         }
     };
 };
