@@ -5,7 +5,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import {makeStyles} from '@material-ui/core/styles';
 import {Link as RouterLink} from "react-router-dom";
 import Link from '@material-ui/core/Link';
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {logoutUser} from "../../store/actions/usersActions";
 
 const useStyles = makeStyles(() => ({
@@ -30,6 +30,7 @@ const UserMenu = props => {
     const classes = useStyles();
     const dispatch = useDispatch();
     const [anchorEl, setAnchorEl] = React.useState(null);
+    const user = useSelector(state => state.users.user);
 
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
@@ -74,12 +75,14 @@ const UserMenu = props => {
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
             >
-                <MenuItem onClick={handleClose}>
-                    <Link component={RouterLink} className={classes.history} to="/mycocktails">My  Cocktails</Link>
-                </MenuItem>
-                <MenuItem onClick={handleClose}>
-                    <Link component={RouterLink} className={classes.history} to="/addcocktail">Add Cocktail</Link>
-                </MenuItem>
+                {user && user.user.role === "user" ?
+                    <>
+                    <MenuItem onClick={handleClose}>
+                        <Link component={RouterLink} className={classes.history} to="/mycocktails">My  Cocktails</Link>
+                    </MenuItem>
+                    <MenuItem onClick={handleClose}>
+                        <Link component={RouterLink} className={classes.history} to="/addcocktail">Add Cocktail</Link>
+                    </MenuItem> </> : null}
                 <MenuItem onClick={logout}>Logout</MenuItem>
             </Menu>
         </div>
