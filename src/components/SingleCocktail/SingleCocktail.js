@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {makeStyles} from '@material-ui/core/styles';
 import clsx from 'clsx';
 import Card from '@material-ui/core/Card';
@@ -11,6 +11,13 @@ import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import {red} from '@material-ui/core/colors';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import {rateCocktail} from '../../store/actions/cocktailsActions';
+import {useDispatch} from "react-redux";
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
+import ThumbUpIcon from '@material-ui/icons/ThumbUp';
 import Rating from '@material-ui/lab/Rating';
 import Box from '@material-ui/core/Box';
 
@@ -39,16 +46,49 @@ const useStyles = makeStyles((theme) => ({
     rating: {
         margin: '0'
     },
-
+    rate: {
+        marginTop: '20px'
+    },
+    formControl: {
+        margin: theme.spacing(1),
+        minWidth: 120,
+    },
+    selectEmpty: {
+        marginTop: theme.spacing(2),
+    },
+    form: {
+        display: 'flex',
+        alignItems: 'center'
+    },
+    thumb: {
+        cursor: 'pointer',
+        '&:hover': {
+            color: "green"
+        }
+    }
 }));
+
 
 const SingleCocktail = props => {
     const classes = useStyles();
-    const [expanded, setExpanded] = React.useState(false);
+    const [expanded, setExpanded] = useState(false);
+    const [stars, setStars] = useState('')
+    const dispatch = useDispatch();
 
     const handleExpandClick = () => {
         setExpanded(!expanded);
     };
+    const handleChange = (event) => {
+        setStars(event.target.value);
+    };
+
+    const addStar = star => {
+        if (stars !== '') {
+            dispatch(rateCocktail(props.id, star));
+            setStars('');
+        }
+    };
+
     return (
         <Card className={classes.root}>
             <CardHeader
@@ -67,9 +107,8 @@ const SingleCocktail = props => {
             />
 
             <CardActions disableSpacing>
-                <Box component="fieldset" mb={3} borderColor="transparent" className={classes.rating}>
-                    <Rating name="read-only" value={4} readOnly
-                    />
+                <Box component="fieldset" mb={3} borderColor="transparent">
+                    <Rating name="read-only" value={props.rating} readOnly/>
                 </Box>
                 <IconButton
                     className={clsx(classes.expand, {
@@ -82,6 +121,7 @@ const SingleCocktail = props => {
                     <ExpandMoreIcon/>
                 </IconButton>
             </CardActions>
+
             <Collapse in={expanded} timeout="auto" unmountOnExit>
                 <CardContent>
                     <Typography paragraph variant="h5">Recipe:</Typography>
@@ -91,7 +131,29 @@ const SingleCocktail = props => {
                     <Typography paragraph variant="h5">
                         Ingredients:
                     </Typography>
-                        {props.ingredients}
+                    {props.ingredients}
+                    <Typography paragraph variant="h5" className={classes.rate}>Rate this cocktail:</Typography>
+                    <div className={classes.form}>
+                        <FormControl className={classes.formControl}>
+                            <InputLabel id="demo-simple-select-label">Rate</InputLabel>
+                            <Select
+                                labelId="demo-simple-select-label"
+                                id="demo-simple-select"
+                                value={stars}
+                                onChange={handleChange}
+                            >
+                                <MenuItem value={1}>1</MenuItem>
+                                <MenuItem value={2}>2</MenuItem>
+                                <MenuItem value={3}>3</MenuItem>
+                                <MenuItem value={4}>4</MenuItem>
+                                <MenuItem value={5}>5</MenuItem>
+                            </Select>
+                        </FormControl>
+                        <ThumbUpIcon
+                            className={classes.thumb}
+                            onClick={() => addStar(stars)}
+                        />
+                    </div>
                 </CardContent>
             </Collapse>
         </Card>

@@ -58,10 +58,22 @@ const Cocktails = () => {
                 </div>
             )
         });
+
+        let rating = 0;
+        if (cocktail.rating.length !== 0) {
+            let sum = 0;
+            for(let i = 0; i < cocktail.rating.length; i++){
+                sum += cocktail.rating[i].rating;
+            }
+            rating = sum / cocktail.rating.length;
+        }
+
         if (cocktail.published || (user && user.user.role === "admin")) {
             return (
                 <SingleCocktail
                     key={cocktail._id}
+                    id={cocktail._id}
+                    rating={rating}
                     name={cocktail.name}
                     image={cocktail.image ?
                         'http://localhost:8000/uploads/' + cocktail.image

@@ -3,7 +3,8 @@ import {
     FETCH_COCKTAILS_ERROR,
     FETCH_COCKTAILS_SUCCESS,
     FETCH_USER_COCKTAILS_ERROR,
-    FETCH_USER_COCKTAILS_SUCCESS
+    FETCH_USER_COCKTAILS_SUCCESS,
+    RATE_COCKTAIL_ERROR
 } from "../actionTypes";
 import axiosAPI from "../../axiosAPI";
 import {push} from "connected-react-router";
@@ -58,6 +59,20 @@ export const fetchUserCocktail = id => {
             dispatch(fetchUserCocktailsSuccess(response.data));
         } catch (e) {
             dispatch(fetchUserCocktailsError(e))
+        }
+    };
+};
+
+const rateCocktailError = error => {
+    return {type: RATE_COCKTAIL_ERROR, error};
+};
+
+export const rateCocktail = (id, stars) => {
+    return async (dispatch) => {
+        try {
+            await axiosAPI.put('/cocktails/' + id, {rating: stars});
+        } catch (e) {
+            dispatch(rateCocktailError(e));
         }
     };
 };

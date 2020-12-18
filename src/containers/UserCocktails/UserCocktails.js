@@ -51,9 +51,20 @@ const UserCocktails = props => {
             name = cocktail.name + ' (not published)';
         }
 
+        let rating = 0;
+        if (cocktail.rating.length !== 0) {
+            let sum = 0;
+            for(let i = 0; i < cocktail.rating.length; i++){
+                sum += cocktail.rating[i].rating;
+            }
+            rating = sum / cocktail.rating.length;
+        }
+
         return (
             <SingleCocktail
                 key={cocktail._id}
+                id={cocktail._id}
+                rating={rating}
                 name={name}
                 image={cocktail.image ?
                     'http://localhost:8000/uploads/' + cocktail.image

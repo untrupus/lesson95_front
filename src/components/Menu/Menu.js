@@ -76,13 +76,13 @@ const UserMenu = props => {
                 onClose={handleClose}
             >
                 {user && user.user.role === "user" ?
-                    <>
+                    <div>
                     <MenuItem onClick={handleClose}>
                         <Link component={RouterLink} className={classes.history} to={"/cocktails/" + user.user._id}>My  Cocktails</Link>
                     </MenuItem>
                     <MenuItem onClick={handleClose}>
                         <Link component={RouterLink} className={classes.history} to="/addcocktail">Add Cocktail</Link>
-                    </MenuItem> </> : null}
+                    </MenuItem> </div> : null}
                 <MenuItem onClick={logout}>Logout</MenuItem>
             </Menu>
         </div>

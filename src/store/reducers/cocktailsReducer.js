@@ -3,7 +3,8 @@ import {
     FETCH_COCKTAILS_SUCCESS,
     FETCH_COCKTAILS_ERROR,
     FETCH_USER_COCKTAILS_ERROR,
-    FETCH_USER_COCKTAILS_SUCCESS
+    FETCH_USER_COCKTAILS_SUCCESS,
+    RATE_COCKTAIL_ERROR
 } from "../actionTypes";
 
 const initialState = {
@@ -11,7 +12,8 @@ const initialState = {
     cocktails: [],
     userCocktails: [],
     fetchCocktailsError: null,
-    fetchUserCocktailError: null
+    fetchUserCocktailError: null,
+    rateCocktailError: null
 };
 
 const cocktailsReducer = (state = initialState, action) => {
@@ -26,6 +28,8 @@ const cocktailsReducer = (state = initialState, action) => {
             return {...state, userCocktails: action.value};
         case FETCH_USER_COCKTAILS_ERROR:
             return {...state, fetchUserCocktailError: action.value};
+        case RATE_COCKTAIL_ERROR:
+            return {...state, rateCocktailError: action.error};
         default:
             return state;
     }
