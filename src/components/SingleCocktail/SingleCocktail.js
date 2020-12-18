@@ -11,7 +11,7 @@ import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import {red} from '@material-ui/core/colors';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import {rateCocktail} from '../../store/actions/cocktailsActions';
+import {rateCocktail, fetchCocktails} from '../../store/actions/cocktailsActions';
 import {useDispatch} from "react-redux";
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -82,9 +82,10 @@ const SingleCocktail = props => {
         setStars(event.target.value);
     };
 
-    const addStar = star => {
+    const addStar = async star => {
         if (stars !== '') {
-            dispatch(rateCocktail(props.id, star));
+            await dispatch(rateCocktail(props.id, star));
+            dispatch(fetchCocktails())
             setStars('');
         }
     };
@@ -132,28 +133,31 @@ const SingleCocktail = props => {
                         Ingredients:
                     </Typography>
                     {props.ingredients}
-                    <Typography paragraph variant="h5" className={classes.rate}>Rate this cocktail:</Typography>
-                    <div className={classes.form}>
-                        <FormControl className={classes.formControl}>
-                            <InputLabel id="demo-simple-select-label">Rate</InputLabel>
-                            <Select
-                                labelId="demo-simple-select-label"
-                                id="demo-simple-select"
-                                value={stars}
-                                onChange={handleChange}
-                            >
-                                <MenuItem value={1}>1</MenuItem>
-                                <MenuItem value={2}>2</MenuItem>
-                                <MenuItem value={3}>3</MenuItem>
-                                <MenuItem value={4}>4</MenuItem>
-                                <MenuItem value={5}>5</MenuItem>
-                            </Select>
-                        </FormControl>
-                        <ThumbUpIcon
-                            className={classes.thumb}
-                            onClick={() => addStar(stars)}
-                        />
-                    </div>
+                    {props.page ?
+                        <>
+                        <Typography paragraph variant="h5" className={classes.rate}>Rate this cocktail:</Typography>
+                        <div className={classes.form}>
+                            <FormControl className={classes.formControl}>
+                                <InputLabel id="demo-simple-select-label">Rate</InputLabel>
+                                <Select
+                                    labelId="demo-simple-select-label"
+                                    id="demo-simple-select"
+                                    value={stars}
+                                    onChange={handleChange}
+                                >
+                                    <MenuItem value={1}>1</MenuItem>
+                                    <MenuItem value={2}>2</MenuItem>
+                                    <MenuItem value={3}>3</MenuItem>
+                                    <MenuItem value={4}>4</MenuItem>
+                                    <MenuItem value={5}>5</MenuItem>
+                                </Select>
+                            </FormControl>
+                            <ThumbUpIcon
+                                className={classes.thumb}
+                                onClick={() => addStar(stars)}
+                            />
+                        </div>
+                        </>: null}
                 </CardContent>
             </Collapse>
         </Card>

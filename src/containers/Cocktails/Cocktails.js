@@ -73,6 +73,7 @@ const Cocktails = () => {
                 <SingleCocktail
                     key={cocktail._id}
                     id={cocktail._id}
+                    page={true}
                     rating={rating}
                     name={cocktail.name}
                     image={cocktail.image ?

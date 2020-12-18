@@ -65,6 +65,7 @@ const UserCocktails = props => {
                 key={cocktail._id}
                 id={cocktail._id}
                 rating={rating}
+                page={false}
                 name={name}
                 image={cocktail.image ?
                     'http://localhost:8000/uploads/' + cocktail.image
